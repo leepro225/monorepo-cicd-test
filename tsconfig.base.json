@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@monorepo-deploy-test/espresso": ["packages/espresso/src/index.ts"],
+      "@monorepo-deploy-test/lib/espresso": [
+        "packages/lib/espresso/src/index.ts"
+      ],
+      "@monorepo-deploy-test/lib/milk": ["packages/lib/lib/milk/src/index.ts"],
+      "@monorepo-deploy-test/milk": ["packages/lib/milk/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

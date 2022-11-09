@@ -6,30 +6,36 @@ on:
     paths-ignore:
       - "**.md"
 
-# env:
-#   AWS_REGION: MY_AWS_REGION                   # set this to your preferred AWS region, e.g. us-west-1
-#   ECR_REPOSITORY: MY_ECR_REPOSITORY           # set this to your Amazon ECR repository name
-#   ECS_SERVICE: MY_ECS_SERVICE                 # set this to your Amazon ECS service name
-#   ECS_CLUSTER: MY_ECS_CLUSTER                 # set this to your Amazon ECS cluster name
-#   ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
-#                                                # file, e.g. .aws/task-definition.json
-#   CONTAINER_NAME: MY_CONTAINER_NAME           # set this to the name of the container in the
-#                                                # containerDefinitions section of your task definition
-
-# permissions:
-#   contents: read
-
 jobs:
-  build:
+  myjob:
     runs-on: ubuntu-latest
+    name: My Job
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          # 영향을 받는 Nx가 비교할 수 있는 기반을 가질 수 있도록 모든 지점과 커밋을 가져와야 합니다.
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - name: nx affected 명령으로 영향을 받는 base 와 head에 대한 SHA 도출 
-      - uses: nrwl/nx-set-shas@v3
+
+      # In any subsequent steps within this job (myjob) we can reference the resolved SHAs
+      # using either the step outputs or environment variables:
+
+      # ===========================================================================
+      # OPTION 1) Environment variables
+      # ===========================================================================
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v3
+    
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
 
+      # ===========================================================================
+      # OPTION 2) Step outputs (in this case we must give the step an "id")
+      # ===========================================================================
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: setSHAs
+        uses: nrwl/nx-set-shas@v3
+    
+      - run: |
+          echo "BASE: ${{ steps.setSHAs.outputs.base }}"
+          echo "HEAD: ${{ steps.setSHAs.outputs.head }}"

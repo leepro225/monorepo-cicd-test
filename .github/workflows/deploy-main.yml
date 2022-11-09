@@ -27,6 +27,3 @@ jobs:
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
         name: Build Affected
         uses: nrwl/nx-set-shas@v3
-      
-
-

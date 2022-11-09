@@ -40,5 +40,5 @@ jobs:
           nxCloud: false
           
       - run: |
-          echo steps.checkForAffected.outputs.affected
+          echo "${{ steps.checkForAffected.outputs.affected }}"
 

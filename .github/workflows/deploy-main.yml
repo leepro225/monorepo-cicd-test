@@ -28,5 +28,4 @@ jobs:
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
 
-      - name: 3) 영향받는 프로젝트들을 빌드한다.
-        run: npx nx affected --target=build --configuration=development --base=${{ env.NX_BASE }}
+

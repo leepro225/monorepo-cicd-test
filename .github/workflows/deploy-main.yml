@@ -5,14 +5,15 @@ on:
     branches: [ "main" ]
     paths-ignore:
       - "**.md"
+      
+# GITHUB_TOKEN 접근 권한
+permissions:
+  contents: 'read'
+  actions: 'read'
 
 jobs:
   myjob:
     runs-on: ubuntu-latest
-    # GITHUB_TOKEN 접근 권한
-    permissions:
-      contents: 'read'
-      actions: 'read'
     steps:
       - name: 1) 모든 브랜치와 커밋을 가져온다.
       - uses: actions/checkout@v3

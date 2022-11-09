@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          affectedApps: needs.build.outputs.affectedApps
+          affectedApps: ${{ needs.build.outputs.affectedApps }}
     steps:
       - name: STEP | DEPLOY
         env:

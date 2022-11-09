@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs: 
-      affectedApps: steps.checkForAffected.outputs.affectedApps
+      affectedApps: ${{ steps.checkForAffected.outputs.affectedApps }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2

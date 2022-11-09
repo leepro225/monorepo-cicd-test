@@ -21,6 +21,10 @@ jobs:
           node-version: 18
       - name: Install NPM   
         run: npm ci
+      
+      - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
+        uses: nrwl/nx-set-shas@v3
+      - run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
 
       - name: Check for Affected Projects
         uses: dkhunt27/action-nx-affected-list@v4
@@ -28,8 +32,5 @@ jobs:
 
       - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
         if: steps.checkForAffected.outputs.hasAffected == 'true'
-        uses: nrwl/nx-set-shas@v3
-      - name: test  
-        if: steps.checkForAffected.outputs.hasAffected == 'true'
-        run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
+        run: echo "호잇"
   

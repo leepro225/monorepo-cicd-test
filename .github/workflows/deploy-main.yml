@@ -41,6 +41,6 @@ jobs:
           SOURCE_DIR: './dist/packages/app'
         run: |
           node
-          for(let i=0; i <${{steps.checkForAffected.outputs.affectedApps}}.length; i++) {
-            console.log(${{steps.checkForAffected.outputs.affectedApps}}[i]);
+          for(let i=0; i < 10; i++) {
+            console.log(i);
           }

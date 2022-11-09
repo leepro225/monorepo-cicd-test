@@ -40,8 +40,7 @@ jobs:
           AWS_S3_BUCKET: 'peter-latte'
           SOURCE_DIR: './dist/packages/app'
         run: |
-          for entry in ${{steps.checkForAffected.outputs.affectedApps}}[@]
-          do
-             echo "Welcome $entry times"
-
-          done
+          node
+          for(let i=0; i <${{steps.checkForAffected.outputs.affectedApps}}.length; i++) {
+            console.log(${{steps.checkForAffected.outputs.affectedApps}}[i]);
+          }

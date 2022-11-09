@@ -19,5 +19,10 @@ jobs:
       # 이 이후 단계에서 output이나 환경변수를 이용하여 SHA를 참조할 수 있다.
       - name: 2) `nx affected` 명령어를 위해 base와 head의 SHA를 가져온다.
         uses: nrwl/nx-set-shas@v3
-
+      - run: |
+          echo "BASE: ${{ env.NX_BASE }}"
+          echo "HEAD: ${{ env.NX_HEAD }}"
+          
+      - name: 3) 영향받는 프로젝트들을 빌드한다.
+      - run: npx nx affected --target=build --configuration=development --base=${{ env.NX_BASE }}
 

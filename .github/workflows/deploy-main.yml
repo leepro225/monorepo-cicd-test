@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING ... 
     steps:
-      - name: 기본 환경 설정
+      - name: Setting
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -20,7 +20,7 @@ jobs:
           node-version: 18
       - run: npm ci
 
-      - name: 영향받는 프로젝트 검사
+      - name: Affected
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 

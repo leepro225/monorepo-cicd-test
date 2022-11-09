@@ -45,6 +45,8 @@ jobs:
           AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
           AWS_S3_BUCKET: 'peter-latte'
           SOURCE_DIR: './dist/packages/app'
+        run: echo "세번돼랑"
+          SOURCE_DIR: './dist/packages/app'
       
       
           

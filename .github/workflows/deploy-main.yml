@@ -10,15 +10,17 @@ jobs:
   myjob:
     runs-on: ubuntu-latest
     name: My Job
+    # GITHUB_TOKEN 접근 권한
+    permissions:
+      contents: 'read'
+      actions: 'read'
     steps:
       - uses: actions/checkout@v2
         with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          # NX affected가 비교할 수 있는 베이스를 가지도록 모든 브랜치와 커밋을 가져온다.
           fetch-depth: 0
 
-      # In any subsequent steps within this job (myjob) we can reference the resolved SHAs
-      # using either the step outputs or environment variables:
-
+      # 이 이후 단계에서 output이나 환경변수를 이용하여 SHA를 참조할 수 있다.
       # ===========================================================================
       # OPTION 1) Environment variables
       # ===========================================================================

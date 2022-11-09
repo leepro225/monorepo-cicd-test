@@ -7,9 +7,9 @@ on:
       - "**.md"
 
 jobs:
-  myjob:
+  build:
     runs-on: ubuntu-latest
-    name: My Job
+    name: STEP | BUILDING ... 
     steps:
       - uses: actions/checkout@v2
         with:
@@ -19,7 +19,7 @@ jobs:
           node-version: 18
       - run: npm ci
 
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
         uses: nrwl/nx-set-shas@v3
     
       - run: |

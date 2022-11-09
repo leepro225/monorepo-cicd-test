@@ -40,9 +40,8 @@ jobs:
           AWS_S3_BUCKET: 'peter-latte'
           SOURCE_DIR: './dist/packages/app'
         run: |
-          affectedApps = steps.checkForAffected.outputs.affectedApps
-          for i in ${affectedApps[@]}
+          for entry in steps.checkForAffected.outputs.affectedApps
           do
-             echo "Welcome $i times"
+             echo "Welcome $entry times"
 
           done

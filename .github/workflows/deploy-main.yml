@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs: 
-      affectedApps: ${{ steps.checkForAffected.outputs.affectedApps }}
+      affectedApps: ${{ steps.checkForAffected.outputs.stringList }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -31,22 +31,27 @@ jobs:
       - name: << Check for affected projects >>
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
+        
+      - name: << Create list of Affected >>
+        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
+        with:
+          stringArray: ${{ steps.checkForAffected.outputs.affectedApps }}
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          affectedApps: ${{ needs.build.outputs.affectedApps }}
+          affectedApps: ${{ needs.build.outputs.affectedApps }} 
     steps:
       - name: STEP | DEPLOY
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
-          AWS_S3_BUCKET: 'peter-latte'
+          AWS_S3_BUCKET: 'peter-###'
           SOURCE_DIR: './dist/packages/app'
-        run: echo "세번돼랑"
+        run: echo "아티팩트 다운로드해서 사용하기"
       
       
           

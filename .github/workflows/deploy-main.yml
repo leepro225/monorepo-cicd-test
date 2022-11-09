@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
+    outputs: 
+      affectedApps: ${{ steps.checkForAffected.outputs.affectedApps }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -35,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-          affectedApps: [1, 3, 4]
+          affectedApps: needs.build.outputs.affectedApps
     steps:
       - name: STEP | DEPLOY
         env:

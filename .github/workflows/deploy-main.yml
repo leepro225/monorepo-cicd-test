@@ -21,3 +21,4 @@ jobs:
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
+      - run: npx nx affected --target=build --configuration=development --base=${{ env.NX_BASE }}

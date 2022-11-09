@@ -29,8 +29,6 @@ jobs:
           fetch-depth: 0
       - name: nx affected 명령으로 영향을 받는 base 와 head에 대한 SHA 도출 
       - uses: nrwl/nx-set-shas@v3
-      
-      
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"

@@ -31,5 +31,10 @@ jobs:
         id: checkForAffected
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'
-        run: echo "여기서는 오직 ${{ steps.checkForAffected.outputs.affectedApps }}"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          pwd
+          ls
   

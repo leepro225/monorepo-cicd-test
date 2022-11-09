@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
 
       - name: Check for Affected Projects
-        uses: dkhunt27/action-nx-affected-list@v4
+      - uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
       - if: steps.checkForAffected.outputs.hasAffected == 'true'

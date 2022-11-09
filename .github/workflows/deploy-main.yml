@@ -11,18 +11,19 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING ... 
     steps:
-      - uses: actions/checkout@v2
+      - name: Heollo world
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - name: Heoooooo
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm ci
+      - name: Heeeee   
+        run: npm ci
 
       - name: Check for Affected Projects
-      - uses: dkhunt27/action-nx-affected-list@v4
+        uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-      - run: |
-          echo "${{ steps.checkForAffected.outputs.affected }}"
+  

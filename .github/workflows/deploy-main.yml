@@ -30,11 +30,15 @@ jobs:
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-#       - if: steps.checkForAffected.outputs.hasAffected == 'true'
+      - name: Deploy S3
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
         env:
+          APP_NAME: 'latte'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - run: |
-          cd ./dist/packages/app
-          ls
-  
+          AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
+          AWS_S3_BUCKET: ${{ secrets[env.APP_NAME] }}
+          SOURCE_DIR: './dist/packages/app/${{ env.APP_NAME }}'

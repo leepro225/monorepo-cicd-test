@@ -23,7 +23,6 @@ jobs:
       - name: Affected
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
-
       - run: |
           echo "${{ steps.checkForAffected.outputs.affected }}"
           

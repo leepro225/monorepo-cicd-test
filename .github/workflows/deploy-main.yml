@@ -7,9 +7,9 @@ on:
       - "**.md"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    name: STEP | BUILDING ... 
+    name: STEP | BUILDING & DEPLOYOING
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -30,11 +30,6 @@ jobs:
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-  deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      name: STEP | DEPLOTING ... 
-      steps:
-        - if: steps.checkForAffected.outputs.hasAffected == 'true'
-          run: echo "여기서는 오직 ${{ steps.checkForAffected.outputs.affectedApps }}"
+      - if: steps.checkForAffected.outputs.hasAffected == 'true'
+        run: echo "여기서는 오직 ${{ steps.checkForAffected.outputs.affectedApps }}"
   

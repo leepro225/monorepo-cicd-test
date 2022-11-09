@@ -9,7 +9,6 @@ on:
 jobs:
   myjob:
     runs-on: ubuntu-latest
-    name: STEP | Build 
     # GITHUB_TOKEN 접근 권한
     permissions:
       contents: 'read'

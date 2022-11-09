@@ -1,4 +1,4 @@
-name: Deploy main to Amazon ECS
+name: Build and Deploy only affected Apps to Amazon ECS
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs: 
-      affectedApps: ${{ steps.checkForAffected.outputs.stringList }}
+      affectedApps: steps.checkForAffected.outputs.affectedApps
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -32,19 +32,18 @@ jobs:
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
         
-      - name: << Create list of Affected >>
-        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
-        with:
-          stringArray: ${{ steps.checkForAffected.outputs.affectedApps }}
+      # affectedApps를 배열로 만들기
+      # 아티팩트 업로드하기
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    name: STEP | DEPLOY
     strategy:
         matrix:
-          affectedApps: ${{ needs.build.outputs.affectedApps }} 
+          affectedApps: [needs.build.outputs.affectedApps]
     steps:
-      - name: STEP | DEPLOY
+      - name: << Deploy to S3 >>
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

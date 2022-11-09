@@ -11,26 +11,27 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING ... 
     steps:
-      - name: Checkout to Repository
+      - name: << Checkout to Repository >>
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Setting Node
+      - name: << Setting Node >>
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      - name: Install NPM   
+      - name: << Install NPM >>   
         run: npm ci
       
-      - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
+      # nx affected 명령어를 위해 base와 head의 SHA를 가져오고, 변경사항이 있는 프로젝트만 빌드한다.
+      - name: << Build only affected >>
         uses: nrwl/nx-set-shas@v3
       - run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
 
-      - name: Check for Affected Projects
+      - name: << Check for Affected Projects >>
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-      - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
+      - name: << Deploy only Affected Projects artifects >>
         if: steps.checkForAffected.outputs.hasAffected == 'true'
-        run: echo "호잇"
+        run: echo "여기서는 오직 ${{ steps.checkForAffected.outputs.affectedApps }}"
   

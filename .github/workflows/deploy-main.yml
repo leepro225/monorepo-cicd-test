@@ -30,7 +30,7 @@ jobs:
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-      - name: Deploy S3
+      - name: << Deploy S3 >>
         if: steps.checkForAffected.outputs.hasAffected == 'true'
         env:
           APP_NAME: 'latte'
@@ -40,4 +40,4 @@ jobs:
           AWS_S3_BUCKET: 'peter-latte'
           SOURCE_DIR: './dist/packages/app'
         run: |
-           echo "steps.checkForAffected.outputs.affectedApps"
+           echo "${steps.checkForAffected.outputs.affectedApps}"

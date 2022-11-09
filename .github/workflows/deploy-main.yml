@@ -10,6 +10,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: STEP | BUILDING & DEPLOYOING
+    strategy:
+          matrix:
+           affectedApps: [1, 2, 3]
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -33,14 +36,10 @@ jobs:
       - name: << Deploy S3 >>
         if: steps.checkForAffected.outputs.hasAffected == 'true'
         env:
-          APP_NAME: 'latte'
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
           AWS_S3_BUCKET: 'peter-latte'
           SOURCE_DIR: './dist/packages/app'
         run: |
-          node
-          for(let i=0; i < 10; i++) {
-            console.log(i);
-          }
+          echo "${{ matrix.affectedApps }}"

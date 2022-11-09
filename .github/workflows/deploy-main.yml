@@ -41,7 +41,7 @@ jobs:
     name: STEP | DEPLOY
     strategy:
         matrix:
-          affectedApps: ${{ needs.build.outputs.affectedApps }}
+          include: ${{ needs.build.outputs.affectedApps }}
     steps:
       - name: << Deploy to S3 >>
         env:
@@ -52,6 +52,6 @@ jobs:
           SOURCE_DIR: './dist/packages/app'
         run: |
           echo "아티팩트 다운로드해서 사용하기"
-          echo "${{ needs.build.outputs.affectedApps }}"
+          echo "${{ matrix.command }}"
       
           

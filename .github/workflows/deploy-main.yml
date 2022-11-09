@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING ... 
     steps:
+      - name: 기본 환경 설정
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
@@ -19,26 +20,13 @@ jobs:
           node-version: 18
       - run: npm ci
 
-      - name: nx affected 명령어를 위해 base와 head의 SHA를 가져온다.
-        uses: nrwl/nx-set-shas@v3
-    
-      - run: |
-          echo "BASE: ${{ env.NX_BASE }}"
-          echo "HEAD: ${{ env.NX_HEAD }}"
-      - run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}
-
-      - name: Check for Affected Projects
+      - name: 영향받는 프로젝트 검사
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
 
-      - if: steps.checkForAffected.outputs.hasAffected == 'true'
-        name: Build (Nx Affected)
-        uses: mansagroup/nrwl-nx-action@v2
-        with:
-          targets: build
-          affected: true
-          nxCloud: false
-          
       - run: |
           echo "${{ steps.checkForAffected.outputs.affected }}"
+          
+
+
 

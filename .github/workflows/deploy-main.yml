@@ -9,35 +9,25 @@ on:
 jobs:
   myjob:
     runs-on: ubuntu-latest
-    name: My Job
+    name: STEP | Build 
     # GITHUB_TOKEN 접근 권한
     permissions:
       contents: 'read'
       actions: 'read'
     steps:
-      - uses: actions/checkout@v2
+      - name: 1) 모든 브랜치와 커밋을 가져온다.
+      - uses: actions/checkout@v3
         with:
           # NX affected가 비교할 수 있는 베이스를 가지도록 모든 브랜치와 커밋을 가져온다.
           fetch-depth: 0
 
       # 이 이후 단계에서 output이나 환경변수를 이용하여 SHA를 참조할 수 있다.
-      # ===========================================================================
-      # OPTION 1) Environment variables
-      # ===========================================================================
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      - name: 2) `nx affected` 명령어를 위해 base와 head의 SHA를 가져온다.
         uses: nrwl/nx-set-shas@v3
     
       - run: |
           echo "BASE: ${{ env.NX_BASE }}"
           echo "HEAD: ${{ env.NX_HEAD }}"
 
-      # ===========================================================================
-      # OPTION 2) Step outputs (in this case we must give the step an "id")
-      # ===========================================================================
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
-        uses: nrwl/nx-set-shas@v3
-    
-      - run: |
-          echo "BASE: ${{ steps.setSHAs.outputs.base }}"
-          echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
+      - name: 3) 영향받는 프로젝트들을 빌드한다.
+        run: npx nx affected --target=build --configuration=development --base=${{ env.NX_BASE }}

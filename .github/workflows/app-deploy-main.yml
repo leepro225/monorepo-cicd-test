@@ -31,14 +31,13 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
-      - name: << Setting >>
-        uses: actions/checkout@v3, actions/setup-node@v3
+      - uses: actions/checkout@v3
         with:
             fetch-depth: 0
-            node-version: 18
-          
-      - name: << Install NPM >>   
-        run: npm ci
+      - uses: actions/setup-node@v3
+        with:
+            fetch-depth: 0
+      - run: npm ci
       
       - name: << Build only affected >>
         uses: nrwl/nx-set-shas@v3

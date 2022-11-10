@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ fromJson(steps.set-matrix.outputs.matrix) }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2

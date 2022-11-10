@@ -44,7 +44,7 @@ jobs:
     name: STEP | DEPLOY
     strategy:
         matrix: 
-          test: ${{ fromJSON(needs.build.outputs.matrix) }}
+          test: ${{ needs.build.outputs.matrix }}
     steps:
       - name: << Deploy to S3 >>
         env:

@@ -45,7 +45,7 @@ jobs:
     name: STEP | DEPLOY
     strategy:
         matrix: 
-          affectedApps: [2]
+          affectedApps: ${{ needs.build.outputs.output1 }}"
     steps:
       - name: << Deploy to S3 >>
         env:

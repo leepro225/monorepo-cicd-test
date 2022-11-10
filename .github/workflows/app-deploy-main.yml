@@ -59,7 +59,7 @@ jobs:
       - name: << Upload artifact >>
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage-report
+          name: homework
           path: dist
 
       - name: << Step results >>
@@ -83,6 +83,12 @@ jobs:
     strategy:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
+      - name: Download math result for job 1
+        uses: actions/download-artifact@v1
+        with:
+          name: homework
+      - run: |
+          echo ls
       - name: << Deploy to S3 >>
         run: |
           echo "${{ matrix.affectedApps }}"

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs: 
-      affectedApps: ${{ steps.checkForAffected.outputs.affectedApps }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -31,6 +31,10 @@ jobs:
       - name: << Check for affected projects >>
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
+      
+      - name: << Set matrix >> 
+        id: set-matrix
+        run: echo "::set-output name=matrix::{\"affectedApps\":`${{ steps.checkForAffected.outputs.affectedApps }}`}"  
         
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기
@@ -41,7 +45,7 @@ jobs:
     name: STEP | DEPLOY
     strategy:
         matrix:
-          include: ${{ needs.build.outputs.affectedApps }}
+          affectedApps: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
       - name: << Deploy to S3 >>
         env:
@@ -52,6 +56,6 @@ jobs:
           SOURCE_DIR: './dist/packages/app'
         run: |
           echo "아티팩트 다운로드해서 사용하기"
-          echo "${{ matrix.command }}"
+          echo "${{ matrix.job-index }}"
       
           

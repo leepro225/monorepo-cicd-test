@@ -12,6 +12,7 @@ jobs:
     name: STEP | BUILDING...🔨
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -43,7 +44,7 @@ jobs:
 
   deploy:
     needs: build
-    if: needs.build.steps.checkForAffected.outputs.hasAffected == 'true'
+    if: needs.build.outputs.hasAffected == 'true'
     runs-on: ubuntu-latest
     name: STEP | DEPLOY...🎊
     strategy:

@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -31,8 +33,8 @@ jobs:
         id: checkForAffected
       
       - name: << Set matrix >> 
-        id: set-matrix
-        run: echo "{metrix}={\"affectedApps\":[\"10\", \"12\", \"14\"]}" >> $GITHUB_OUTPUT
+        id: step1
+        run: echo "test=[\"1\", \"2\", \"3\"]" >> $GITHUB_OUTPUT
         
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기
@@ -42,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | DEPLOY
     strategy:
-        matrix: ${{ fromJSON(env.$GITHUB_OUTPUT.metrix) }}
+        matrix: ${{ needs.build.outputs.output1 }}
     steps:
       - name: << Deploy to S3 >>
         env:

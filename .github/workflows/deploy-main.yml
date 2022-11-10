@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | DEPLOY
     strategy:
-        matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
+        matrix: ${{ needs.build.outputs.matrix }}
     steps:
       - name: << Deploy to S3 >>
         env:

@@ -32,12 +32,10 @@ jobs:
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
       - name: << Setting >>
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3, actions/setup-node@v3
         with:
             fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+            node-version: 18
           
       - name: << Install NPM >>   
         run: npm ci

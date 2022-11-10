@@ -31,14 +31,14 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
-      - name: << Checkout to repository >>
-        uses: actions/checkout@v2
+      - name: << Setting >>
+      - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-      - name: << Setting node >>
-        uses: actions/setup-node@v3
+            fetch-depth: 0
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
+          
       - name: << Install NPM >>   
         run: npm ci
       

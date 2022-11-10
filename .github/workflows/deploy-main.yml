@@ -34,7 +34,7 @@ jobs:
       
       - name: << Set matrix >> 
         id: set-matrix
-        run: echo "matrix={\"include\":[\"Kpp-1\", \"Hpp-2\"]}" >> $GITHUB_OUTPUT
+        run: echo "matrix={\"include\":[\"Kpp1\", \"Hpp2\"]}" >> $GITHUB_OUTPUT
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기
 

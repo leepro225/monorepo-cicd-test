@@ -44,7 +44,7 @@ jobs:
         uses: nrwl/nx-set-shas@v3
        
       - name: << Build only affected >>
-      - run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
+        run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
 
       - name: << Check for affected projects >>
         uses: dkhunt27/action-nx-affected-list@v4

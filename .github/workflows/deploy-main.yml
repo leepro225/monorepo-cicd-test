@@ -16,7 +16,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: STEP | TEST...💯
+    name: STEP | TESTING...💯
     steps:
       - run: echo "Do something..."
       
@@ -65,7 +65,7 @@ jobs:
     needs: build
     if: needs.build.outputs.hasAffected == 'true'
     runs-on: ubuntu-latest
-    name: STEP | DEPLOY...🎊
+    name: STEP | DEPLOYING...🎊
     strategy:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:

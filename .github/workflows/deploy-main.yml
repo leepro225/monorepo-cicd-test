@@ -34,7 +34,7 @@ jobs:
       
       - name: << Set matrix >> 
         id: set-matrix
-        run: echo "::set-output name=matrix::{\"affectedApps\":[10, 12, 14]}"  
+        run: echo "::set-output name=matrix::{\"affectedApps\":["10", "12", "14"]}"  
         
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기

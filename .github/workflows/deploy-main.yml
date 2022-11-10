@@ -34,7 +34,7 @@ jobs:
       
       - name: << Set matrix >> 
         id: set-matrix
-        run: echo "matrix={\"test\":[\"app-americano\", \"app-latte\"]}" >> $GITHUB_OUTPUT
+        run: echo "matrix={\"test\":${{ steps.checkForAffected.outputs.affectedApps }}}" >> $GITHUB_OUTPUT
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기
 

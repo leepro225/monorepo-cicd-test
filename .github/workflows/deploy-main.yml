@@ -40,7 +40,6 @@ jobs:
       # 아티팩트 업로드하기
 
   deploy:
-    if: steps.checkForAffected.outputs.hasAffectedApps == 'true'
     needs: build
     runs-on: ubuntu-latest
     name: STEP | DEPLOY

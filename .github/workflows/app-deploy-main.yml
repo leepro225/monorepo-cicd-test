@@ -20,7 +20,7 @@ jobs:
     steps:
       - run: echo "Do something..."
       
-      - name: << Results >>
+      - name: << Step results >>
         run: echo "테스트가 완료되었습니다. 100점입니다."
       
   build:
@@ -31,6 +31,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
+      # Settings...
       - uses: actions/checkout@v3
         with:
             fetch-depth: 0
@@ -39,21 +40,23 @@ jobs:
             fetch-depth: 0
       - run: npm ci
       
-      - name: << Build only affected >>
+      - name: << Set head and base for comparison >>
         uses: nrwl/nx-set-shas@v3
+       
+      - name: << Build only affected >>
       - run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
 
       - name: << Check for affected projects >>
         uses: dkhunt27/action-nx-affected-list@v4
         id: checkForAffected
       
-      - name: << Set matrix for deploy >> 
+      - name: << Set matrix for next job >> 
         id: set-matrix
         run: echo "matrix={\"affectedApps\":${{ toJSON(steps.checkForAffected.outputs.affectedApps) }}}" >> $GITHUB_OUTPUT
         
         # 아티팩트 업로드하기
 
-      - name: << Results >>
+      - name: << Step results >>
         run: echo "빌드가 완료되었습니다. 빌드된 앱 = ${{ steps.checkForAffected.outputs.affectedApps }}"
       
       

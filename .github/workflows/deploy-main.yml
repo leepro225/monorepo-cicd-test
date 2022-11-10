@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | BUILDING
     outputs:
-      matrix: ${{ fromJson(steps.set-matrix.outputs.matrix) }}
+      matrix: steps.set-matrix.outputs.matrix
     steps:
       - name: << Checkout to repository >>
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
       
       - name: << Set matrix >> 
         id: set-matrix
-        run: echo "::set-output name=matrix::{\"include\":${{ steps.checkForAffected.outputs.affectedApps }}}"
+        run: echo "::set-output name=matrix::{\"include\":$(echo ${{steps.checkForAffected.outputs.affectedApps}}) }}}"
       # affectedApps를 배열로 만들기
       # 아티팩트 업로드하기
 

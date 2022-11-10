@@ -43,7 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     name: STEP | DEPLOY
     strategy:
-        matrix: [1]
+        matrix: 
+          test: [1]
     steps:
       - name: << Deploy to S3 >>
         env:

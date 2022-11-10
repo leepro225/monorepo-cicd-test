@@ -5,6 +5,13 @@ on:
     branches: [ "main" ]
     paths-ignore:
       - "**.md"
+      
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
+  AWS_S3_BUCKET: 'peter-###'
+  SOURCE_DIR: './dist/packages/app'
 
 jobs:
   build:
@@ -51,13 +58,7 @@ jobs:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
       - name: << Deploy to S3 >>
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
-          AWS_S3_BUCKET: 'peter-###'
-          SOURCE_DIR: './dist/packages/app'
         run: |
-          echo "${{ matrix.job-index }}"
+          echo "${{ matrix }}"
       
           

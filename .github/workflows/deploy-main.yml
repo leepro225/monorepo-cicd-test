@@ -55,7 +55,7 @@ jobs:
           AWS_S3_BUCKET: 'peter-###'
           SOURCE_DIR: './dist/packages/app'
         run: |
-          echo "아티팩트 다운로드해서 사용하기 ${{ fromJSON(needs.build.outputs.output1) }}"
+          echo "아티팩트 다운로드해서 사용하기 ${{ needs.build.outputs.output1 }}"
           echo "${{ matrix.job-index }}"
       
           

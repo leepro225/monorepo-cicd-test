@@ -88,6 +88,7 @@ jobs:
         with:
           name: homework
       - run: |
+          cd homework
           pwd; ls -l
       - name: << Deploy to S3 >>
         run: |

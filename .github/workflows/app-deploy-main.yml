@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: homework
-          path: dist
+          path: dist/packages/app/
 
       - name: << Step results >>
         run: echo "빌드가 완료되었습니다. 빌드된 앱 = ${{ steps.checkForAffected.outputs.affectedApps }}"
@@ -83,11 +83,12 @@ jobs:
     strategy:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
-      - name: Download math result for job 1
+      - name: << Download artifact >>
         uses: actions/download-artifact@v1
         with:
           name: homework
       - run: |
+          echo pwd
           echo ls
       - name: << Deploy to S3 >>
         run: |

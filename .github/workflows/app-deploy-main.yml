@@ -90,9 +90,8 @@ jobs:
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET = "peter${{ matrix.affectedApps }}" | sed 'app'
-          SOURCE_DIR = "./dist/${{ matrix.affectedApps }}" | tr '-' '/'
+          AWS_S3_BUCKET: peter${{ matrix.affectedApps#app }}
+          SOURCE_DIR: ./dist/${{ matrix.affectedApps/-/\/ }}"
           
       
         

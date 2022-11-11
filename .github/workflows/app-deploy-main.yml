@@ -91,7 +91,7 @@ jobs:
           echo "${{ matrix.affectedApps }}"
           env:
             AWS_S3_BUCKET = "peter${{ matrix.affectedApps }}" | sed 'app'
-            SOURCE_DIR = "./dist/${{ matrix.affectedApps//-/\/ }}
+            SOURCE_DIR = "./dist/${{ matrix.affectedApps }}" | tr '-' '/'
           
       - uses: jakejarvis/s3-sync-action@master
         with:

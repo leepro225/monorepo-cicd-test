@@ -82,7 +82,7 @@ jobs:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
       - name: << Set ENV for S3 >>
-      - run: |
+        run: |
           APPNAME=${{ matrix.affectedApps }}
           echo "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
           echo "SOURCE_DIR=./dist/${APPNAME/-/\/}" >> $GITHUB_ENV

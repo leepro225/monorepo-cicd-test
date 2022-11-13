@@ -81,21 +81,23 @@ jobs:
     strategy:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
-      - name: << Download artifact >>
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
-          
       - run: |
           APPNAME=${{ matrix.affectedApps }}
           echo "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
           echo "SOURCE_DIR=./dist/${APPNAME/-/\/}" >> $GITHUB_ENV
           
+      - name: << Download artifact >>
+        uses: actions/download-artifact@v1
+        with:
+          name: dist
+          
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
-        
+        env: 
+          AWS_S3_BUCKET: peter${APPNAME#app}
+          SOURCE_DIR: ./dist/${APPNAME/-/\/}
 
 
           

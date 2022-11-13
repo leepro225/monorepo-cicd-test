@@ -88,8 +88,8 @@ jobs:
           
       - run: |
           APPNAME=${{ matrix.affectedApps }}
-          env.AWS_S3_BUCKET=peter${APPNAME#app}
-          env.SOURCE_DIR=./dist/${APPNAME/-/\/}
+          echo "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
+          echo "SOURCE_DIR=./dist/${APPNAME/-/\/}" >> $GITHUB_ENV
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master

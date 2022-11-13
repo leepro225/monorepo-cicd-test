@@ -83,8 +83,8 @@ jobs:
     steps:
       - run: |
           APPNAME=${{ matrix.affectedApps }}
-          "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
-          "SOURCE_DIR=./dist/${APPNAME/-/\/}" >> $GITHUB_ENV
+          echo "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
+          echo "SOURCE_DIR=./dist/${APPNAME/-/\/}" >> $GITHUB_ENV
           
       - name: << Download artifact >>
         uses: actions/download-artifact@v1
@@ -95,8 +95,9 @@ jobs:
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
-
-
+        env:
+          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
+          SOURCE_DIR: ${{ env.SOURCE_DIR }}
           
       
         

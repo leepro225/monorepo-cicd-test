@@ -98,8 +98,8 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${BUCKET}
-          SOURCE_DIR: ${DIR}
+          AWS_S3_BUCKET: ${{ BUCKET }}
+          SOURCE_DIR: ${{ DIR }}
         
 
 

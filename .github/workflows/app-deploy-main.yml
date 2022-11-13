@@ -87,18 +87,19 @@ jobs:
           name: dist
           
       - run: |
-          BUCKET=${{ matrix.affectedApps }}
-          BUCKET=${BUCKET#app}
+          APPNAME=${{ matrix.affectedApps }}
+          BUCKET=peter${APPNAME#app}
+          DIR=./dist/$${{APPNAME/-/\/}}
           echo ${BUCKET}
-          echo "./dist/${ matrix.affectedApps/-/\/ }"
+          echo ${DIR}
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: peter${{ matrix.affectedApps }}
-          SOURCE_DIR: ./dist/${ matrix.affectedApps/-/\/ }
+          AWS_S3_BUCKET: ${BUCKET}
+          SOURCE_DIR: ${DIR}
         
 
 

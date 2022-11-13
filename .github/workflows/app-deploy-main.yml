@@ -81,6 +81,7 @@ jobs:
     strategy:
         matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
     steps:
+      - name: << Set ENV for S3 >>
       - run: |
           APPNAME=${{ matrix.affectedApps }}
           echo "AWS_S3_BUCKET=peter${APPNAME#app}" >> $GITHUB_ENV
@@ -91,11 +92,6 @@ jobs:
         with:
           name: dist
           
-      - run: |
-          ls
-          cd dist
-          ls
-          
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master
         with:
@@ -104,7 +100,8 @@ jobs:
           AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
           SOURCE_DIR: ${{ env.SOURCE_DIR }}
           
-      
+      - name: << Step results >>
+        run: echo "${APPNAME} - 앱 배포가 완료되었습니다." 
         
       
           

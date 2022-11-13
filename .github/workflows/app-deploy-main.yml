@@ -87,7 +87,8 @@ jobs:
           name: dist
           
       - run: |
-          echo "peter${ matrix.affectedApps#app }"
+          echo ${ matrix.affectedApps }
+          echo ${ matrix.affectedApps#app }
           echo "./dist/${ matrix.affectedApps/-/\/ }"
           
       - name: << Deploy to S3 >>

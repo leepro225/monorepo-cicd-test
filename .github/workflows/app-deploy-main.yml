@@ -91,6 +91,9 @@ jobs:
         with:
           name: dist
           
+      - run: |
+          ls
+          
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master
         with:

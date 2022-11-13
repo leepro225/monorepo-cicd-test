@@ -89,7 +89,7 @@ jobs:
       - run: |
           BUCKET=${{ matrix.affectedApps }}
           BUCKET=${BUCKET#app}
-          echo BUCKET
+          echo ${BUCKET}
           echo "./dist/${ matrix.affectedApps/-/\/ }"
           
       - name: << Deploy to S3 >>

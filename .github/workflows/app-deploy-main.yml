@@ -89,7 +89,7 @@ jobs:
       - run: |
           APPNAME=${{ matrix.affectedApps }}
           BUCKET=peter${APPNAME#app}
-          DIR=./dist/$${{APPNAME/-/\/}}
+          DIR=./dist/${APPNAME/-/\/}
           echo ${BUCKET}
           echo ${DIR}
           

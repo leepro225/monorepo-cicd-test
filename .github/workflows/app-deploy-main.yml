@@ -130,7 +130,7 @@ jobs:
       - name: << Download artifact >>
         uses: actions/download-artifact@v1
         with:
-          name: dist
+          name: ${{ matrix.affectedApps }}
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master

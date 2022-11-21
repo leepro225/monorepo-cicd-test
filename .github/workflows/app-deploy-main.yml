@@ -94,11 +94,12 @@ jobs:
           PATH=dist/packages/${APPNAME/-/\/}
           echo $APPNAME
           echo $PATH
+          
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
-          name: echo $APPNAME
-          path: echo $PATH
+          name: $APPNAME
+          path: $PATH
             
   test:
     needs: build

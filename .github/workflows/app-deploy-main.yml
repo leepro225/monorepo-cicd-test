@@ -26,17 +26,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          
-      - run: pwd    
       
       - name: << Install NX >>      
         run: npm install nx
-        
-      - run: ls
-      
-      - run: cd ./node_modules
-      
-      - run: ls
     
       - name: << Set head and base for comparison >>
         uses: nrwl/nx-set-shas@v3
@@ -81,15 +73,21 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm ci
-          nx build ${{ matrix.affectedApps }}
+          nx run ${{ matrix.affectedApps }}:build 
+          
+      - run: ls
       
-      - run: echo ls -al
+      - run: cd dist
+      
+      - run: ls
+      
+      - run: APPNAME=${{ matrix.affectedApps }}
       
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.affectedApps }}
-          path: dist/packages/${{ matrix.affectedApps }}
+          path: dist/packages/${{APPNAME/-/\/}}
       
   test:
     needs: build

@@ -29,6 +29,12 @@ jobs:
       
       - name: << Install NX >>      
         run: npm install -g nx
+        
+      - run: ls
+      
+      - run: cd ./node_modules
+      
+      - run: ls
     
       - name: << Set head and base for comparison >>
         uses: nrwl/nx-set-shas@v3

@@ -87,8 +87,8 @@ jobs:
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
-          name: ${ APPNAME }
-          path: ${ PATH }
+          name: ${{ APPNAME }}
+          path: ${{ PATH }}
       
   test:
     needs: build

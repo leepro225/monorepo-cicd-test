@@ -12,23 +12,42 @@ env:
   AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
 
 jobs:      
-  build:
+  setting:
     runs-on: ubuntu-latest
-    name: STEP | BUILDING...🔨
-    strategy:
-      matrix:
-        dist: [1, 2, 3]
+    name: STEP | SETTING...⚙️
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
     steps:
-      # Settings...
       - uses: actions/checkout@v3
         with:
             fetch-depth: 0
+    
+      - name: << Set head and base for comparison >>
+        uses: nrwl/nx-set-shas@v3
+
+      - name: << Check for affected projects >>
+        uses: dkhunt27/action-nx-affected-list@v4
+        id: checkForAffected
+      
+      - name: << Set matrix for next job >> 
+        id: set-matrix
+        run: echo "matrix={\"affectedApps\":${{ toJSON(steps.checkForAffected.outputs.affectedApps) }}}" >> $GITHUB_OUTPUT
+
+      - name: << Step results >>
+        run: echo "세팅이 완료되었습니다. 빌드 예정인 앱 = ${{ steps.checkForAffected.outputs.affectedApps }}"
+        
+  build:
+    needs: [setting]
+    if: needs.setting.outputs.hasAffected == 'true'
+    runs-on: ubuntu-latest
+    name: STEP | BUILDING...🔨
+    strategy:
+      matrix: ${{ fromJSON(needs.setting.outputs.matrix) }}
+    steps:
       - uses: actions/setup-node@v3
         with:
-            node-version: 18
+          node-version: 18
             
       - name: << Cache node_modules >>      
         id: cache    
@@ -41,30 +60,17 @@ jobs:
             
       - name: << Npm install >>      
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: |
+          npm ci
+          nx build ${{ matrix.affectedApps }}
       
-      - name: << Set head and base for comparison >>
-        uses: nrwl/nx-set-shas@v3
-       
-      - name: << Build only affected >>
-        run: npx nx affected --target=build --base=${{ env.NX_BASE }} --head=${{ env.NX_HEAD }}  
-
-      - name: << Check for affected projects >>
-        uses: dkhunt27/action-nx-affected-list@v4
-        id: checkForAffected
+      - run: echo ls -al
       
-      - name: << Set matrix for next job >> 
-        id: set-matrix
-        run: echo "matrix={\"affectedApps\":${{ toJSON(steps.checkForAffected.outputs.affectedApps) }}}" >> $GITHUB_OUTPUT
-        
-      - name: << Upload artifact >>
+      - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.dist }}
-          path: dist/packages/${{ matrix.dist }}
-
-      - name: << Step results >>
-        run: echo "빌드가 완료되었습니다. 빌드된 앱 = ${{ steps.checkForAffected.outputs.affectedApps }}"
+          name: ${{ matrix.affectedApps }}
+          path: dist/packages/${{ matrix.affectedApps }}
       
   test:
     needs: build
@@ -77,12 +83,12 @@ jobs:
         run: echo "테스트가 완료되었습니다. 100점입니다."   
 
   deploy:
-    needs: [test, build]
+    needs: [setting, test, build]
     if: needs.build.outputs.hasAffected == 'true'
     runs-on: ubuntu-latest
     name: STEP | DEPLOYING...🎊
     strategy:
-        matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
+        matrix: ${{ fromJSON(needs.setting.outputs.matrix) }}
     steps:
       - name: << Set ENV for S3 >>
         run: |

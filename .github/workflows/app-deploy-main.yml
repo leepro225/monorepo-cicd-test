@@ -92,7 +92,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.affectedApps }}
-          path: dist/packages/${APPNAME/-/\/}
+          path: dist/packages/${matrix.affectedApps/-/\/}
       
   test:
     needs: build

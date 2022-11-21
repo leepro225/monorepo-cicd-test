@@ -78,21 +78,17 @@ jobs:
       - run: ls    
       
       - name: << Build app >> 
-        run: npx nx run ${{ matrix.affectedApps }}:build 
+        run: |
+          npx nx run ${{ matrix.affectedApps }}:build 
+          APPNAME=${{ matrix.affectedApps }}
+          PATH=dist/packages/${{ APPNAME/-/\/ }}
           
-      - run: ls
-      
-      - run: cd dist
-      
-      - run: ls
-      
-      - run: APPNAME=${{ matrix.affectedApps }}
       
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.affectedApps }}
-          path: "dist/packages/${APPNAME/-/\/}"
+          name: ${ APPNAME }
+          path: ${{ PATH }}
       
   test:
     needs: build

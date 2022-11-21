@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.affectedApps }}
-          path: dist/packages/${{APPNAME/-/\/}}
+          path: "dist/packages/${{APPNAME/-/\/}}"
       
   test:
     needs: build

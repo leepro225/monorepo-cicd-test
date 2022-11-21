@@ -91,6 +91,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: dist
+          path: ${{ env.SOURCE_DIR }}
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master

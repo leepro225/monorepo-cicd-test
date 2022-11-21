@@ -71,9 +71,10 @@ jobs:
             
       - name: << Npm install >>      
         if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          npm ci
-          nx run ${{ matrix.affectedApps }}:build 
+        run: npm ci
+          
+      - name: << Build app >> 
+        run: nx run ${{ matrix.affectedApps }}:build 
           
       - run: ls
       

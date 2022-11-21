@@ -91,7 +91,7 @@ jobs:
         run: |
           npx nx run ${{ matrix.affectedApps }}:build 
           APPNAME=${{ matrix.affectedApps }}
-          PATH=dist/packages/${{APPNAME/-/\/}}
+          PATH=dist/packages/${APPNAME/-/\/}
           echo $APPNAME
           echo $PATH
             

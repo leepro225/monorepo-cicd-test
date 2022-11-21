@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: STEP | BUILDING...🔨
+    strategy:
+      matrix:
+        dist: [1, 2, 3]
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       hasAffected: ${{ steps.checkForAffected.outputs.hasAffected }}
@@ -57,8 +60,8 @@ jobs:
       - name: << Upload artifact >>
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: dist/packages/
+          name: ${{ matrix.dist }}
+          path: dist/packages/${{ matrix.dist }}
 
       - name: << Step results >>
         run: echo "빌드가 완료되었습니다. 빌드된 앱 = ${{ steps.checkForAffected.outputs.affectedApps }}"
@@ -90,7 +93,7 @@ jobs:
       - name: << Download artifact >>
         uses: actions/download-artifact@v1
         with:
-          name: ${{ env.SOURCE_DIR }}
+          name: dist
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master

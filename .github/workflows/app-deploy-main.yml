@@ -69,10 +69,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
             
+      - run: ls
+            
       - name: << Npm install >>      
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
           
+      - run: ls    
+      
       - name: << Build app >> 
         run: nx run ${{ matrix.affectedApps }}:build 
           

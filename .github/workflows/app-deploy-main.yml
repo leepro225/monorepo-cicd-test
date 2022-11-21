@@ -78,7 +78,7 @@ jobs:
       - run: ls    
       
       - name: << Build app >> 
-        run: nx run ${{ matrix.affectedApps }}:build 
+        run: npx nx run ${{ matrix.affectedApps }}:build 
           
       - run: ls
       

@@ -115,7 +115,7 @@ jobs:
 
   deploy:
     needs: [setting, test, build]
-    if: needs.build.outputs.hasAffected == 'true'
+    if: needs.setting.outputs.hasAffected == 'true'
     runs-on: ubuntu-latest
     name: STEP | DEPLOYING...🎊
     strategy:

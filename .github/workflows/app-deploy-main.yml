@@ -94,8 +94,8 @@ jobs:
           APPNAME=${{ matrix.affectedApps }}
           PATH=dist/packages/${APPNAME/-/\/}
           run: |
-            echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_OUTPUT
-            echo "PATH=dist/packages/${{APPNAME/-/\/}}" >> $GITHUB_OUTPUT
+            echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_ENV
+            echo "PATH=dist/packages/${{APPNAME/-/\/}}" >> $GITHUB_ENV
           
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3

@@ -92,15 +92,9 @@ jobs:
           npx nx run ${{ matrix.affectedApps }}:build 
           APPNAME=${{ matrix.affectedApps }}
           PATH=dist/packages/${{APPNAME/-/\/}}
-          echo APPNAME
-          echo PATH
-      
-      - name: << Upload dist >>
-        uses: actions/upload-artifact@v3
-        with:
-          name: echo APPNAME
-          path: echo PATH
-      
+          echo $APPNAME
+          echo $PATH
+            
   test:
     needs: build
     runs-on: ubuntu-latest

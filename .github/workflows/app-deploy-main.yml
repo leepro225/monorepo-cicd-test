@@ -90,8 +90,7 @@ jobs:
       - name: << Download artifact >>
         uses: actions/download-artifact@v1
         with:
-          name: dist
-          path: ${{ env.SOURCE_DIR }}
+          name: ${{ env.SOURCE_DIR }}
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master
@@ -99,7 +98,7 @@ jobs:
           args: --acl public-read --follow-symlinks --delete
         env:
           AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET }}
-          SOURCE_DIR: "${{ env.SOURCE_DIR }}/*"
+          SOURCE_DIR: ${{ env.SOURCE_DIR }}
           
       - name: << Step results >>
         run: echo "${APPNAME} - 앱 배포가 완료되었습니다." 

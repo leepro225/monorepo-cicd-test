@@ -11,6 +11,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
   AWS_S3_PREFIX: peter
+  NODE_VERSION: 18.2.1
 
 jobs:      
   check-affected-apps:
@@ -23,10 +24,9 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm i nx
     
@@ -42,8 +42,7 @@ jobs:
         run: echo "matrix={\"affectedApps\":${{ toJSON(steps.check-for-affected.outputs.affectedApps) }}}" >> $GITHUB_OUTPUT
 
       - name: << Step results >>
-        run: echo "영향받은 앱 체크가 완료되었습니다. 빌드 예정인 앱 = ${{ steps.check-for-affected.outputs.affectedApps }}"
-        
+        run: echo "영향받은 앱 체크가 완료되었습니다. 빌드 예정인 앱 = ${{ steps.check-for-affected.outputs.affectedApps }}" 
         
   build:
     needs: [check-affected-apps]
@@ -54,12 +53,9 @@ jobs:
       matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
       
@@ -71,11 +67,14 @@ jobs:
           npx nx run ${{ steps.build-app.outputs.APPNAME }}:build 
           npx nx run ${{ steps.build-app.outputs.APPNAME }}:test
           
-      - name: << Upload dist >>
+      - name: << Upload an artifact >>
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.build-app.outputs.APPNAME }}
           path: ${{ steps.build-app.outputs.PATH }}
+      
+      - name: << Step results >>
+        run: echo "영향받은 앱 빌드와 테스트가 완료되었습니다. 배포 예정인 앱 = ${{ steps.build-app.outputs.APPNAME }}"
 
   deploy:
     needs: [check-affected-apps, build]
@@ -92,12 +91,12 @@ jobs:
           echo "AWS_S3_BUCKET=${env.AWS_S3_PREFIX}${APPNAME#app}" >> $GITHUB_ENV
           echo "SOURCE_DIR=./${APPNAME}" >> $GITHUB_ENV
           
-      - name: << Download artifact >>
+      - name: << Download an artifact >>
         uses: actions/download-artifact@v1
         with:
           name: $APPNAME
           
-      - name: << Deploy to S3 >>
+      - name: << Deploy an app to S3 >>
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
@@ -107,6 +106,3 @@ jobs:
           
       - name: << Step results >>
         run: echo "${APPNAME} - 앱 배포가 완료되었습니다." 
-        
-      
-          

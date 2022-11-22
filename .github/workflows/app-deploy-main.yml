@@ -1,4 +1,4 @@
-name: Build and Deploy only affected Apps to Amazon ECS
+name: Build and Deploy only affected Apps to Amazon ECS(성공)
 
 on:
   push:

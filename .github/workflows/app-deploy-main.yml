@@ -69,25 +69,16 @@ jobs:
           echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_OUTPUT
           echo "PATH=dist/packages/${APPNAME/-/\/}" >> $GITHUB_OUTPUT
           npx nx run ${{ steps.build-app.outputs.APPNAME }}:build 
+          npx nx run ${{ steps.build-app.outputs.APPNAME }}:test
           
       - name: << Upload dist >>
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.build-app.outputs.APPNAME }}
           path: ${{ steps.build-app.outputs.PATH }}
-            
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    name: STEP | TESTING...💯
-    steps:
-      - run: echo "Do something..."
-      
-      - name: << Step results >>
-        run: echo "테스트가 완료되었습니다. 100점입니다."   
 
   deploy:
-    needs: [check-affected-apps, test, build]
+    needs: [check-affected-apps, build]
     if: needs.setting.outputs.hasAffected == 'true'
     runs-on: ubuntu-latest
     name: STEP | DEPLOYING...🎊

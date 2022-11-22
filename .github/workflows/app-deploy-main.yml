@@ -60,14 +60,13 @@ jobs:
       - run: npm i nx
       - run: npm ci
       
-      - run: ls
-      
       - name: << Build an app >> 
         id: build-app
         run: |
           npx nx run ${{matrix.affectedApps}}:build
-          echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_OUTPUT
-          echo "PATH=dist/packages/${matrix.affectedApps/-/\/}" >> $GITHUB_OUTPUT
+          APPNAME=${{ matrix.affectedApps }}
+          echo "APPNAME=${APPNAME}" >> $GITHUB_OUTPUT
+          echo "PATH=dist/packages/${APPNAME/-/\/}" >> $GITHUB_OUTPUT
 
               
       - name: << Upload an artifact >>

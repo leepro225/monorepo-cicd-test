@@ -93,7 +93,7 @@ jobs:
         id: set-env
         run: |
           APPNAME=${{ matrix.affectedApps }}
-          echo "AWS_S3_BUCKET=${env.AWS_S3_PREFIX}${APPNAME#app}" >> $GITHUB_ENV
+          echo "AWS_S3_BUCKET=${{env.AWS_S3_PREFIX}}${{APPNAME#app}}" >> $GITHUB_ENV
           echo "SOURCE_DIR=./${APPNAME}" >> $GITHUB_ENV
           
       - name: << Download an artifact >>

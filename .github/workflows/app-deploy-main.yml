@@ -11,7 +11,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION: ${{ secrets.S3_BUCKET_REGION }}
   AWS_S3_PREFIX: peter
-  NODE_VERSION: 18.2.1
+  NODE_VERSION: 18.12.1
 
 jobs:      
   check-affected-apps:

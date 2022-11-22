@@ -99,7 +99,7 @@ jobs:
       - name: << Download an artifact >>
         uses: actions/download-artifact@v1
         with:
-          name: $APPNAME
+          name: ${{ matrix.affectedApps }}
           
       - name: << Deploy an app to S3 >>
         uses: jakejarvis/s3-sync-action@master

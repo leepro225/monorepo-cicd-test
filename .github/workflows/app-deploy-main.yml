@@ -95,6 +95,7 @@ jobs:
         matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
     steps:
       - name: << Set ENV for S3 >>
+        id: set-env
         run: |
           APPNAME=${{ matrix.affectedApps }}
           echo "AWS_S3_BUCKET=${env.AWS_S3_PREFIX}${APPNAME#app}" >> $GITHUB_ENV
@@ -103,7 +104,7 @@ jobs:
       - name: << Download artifact >>
         uses: actions/download-artifact@v1
         with:
-          name: ${{ APPNAME }}
+          name: $APPNAME
           
       - name: << Deploy to S3 >>
         uses: jakejarvis/s3-sync-action@master

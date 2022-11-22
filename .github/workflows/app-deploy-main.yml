@@ -65,16 +65,17 @@ jobs:
       - name: << Build an app >> 
         id: build-app
         run: |
-          APPNAME=${{matrix.affectedApps}}
-          PATH=dist/packages/${APPNAME/-/\/}
           npx nx run ${{matrix.affectedApps}}:build
+          echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_OUTPUT
+          echo "PATH=dist/packages/${matrix.affectedApps/-/\/}" >> $GITHUB_OUTPUT
+
               
       - name: << Upload an artifact >>
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
-          name: $APPNAME
-          path: $PATH
+          name: ${{ steps.build-app.outputs.APPNAME }}"
+          path: ${{ steps.build-app.outputs.PATH }}"
           if-no-files-found: error
           
       - name: << Job results >>

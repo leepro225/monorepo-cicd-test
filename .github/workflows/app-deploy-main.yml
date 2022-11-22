@@ -63,17 +63,17 @@ jobs:
         id: build-app
         run: |
           APPNAME=${{matrix.affectedApps}}
-          echo "PATH=dist/packages/${APPNAME/-/\/}" >> $GITHUB_OUTPUT
+          PATH=dist/packages/${APPNAME/-/\/}
           npx nx run ${APPNAME}:build
-          npx nx run ${APPNAME}:test
               
       - name: << Upload an artifact >>
         if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.build-app.outputs.APPNAME }}
-          path: ${{ steps.build-app.outputs.PATH }}
-      
+          name: $APPNAME
+          path: $PATH
+          if-no-files-found: error
+          
       - name: << Job results >>
         if: ${{ success() }}
         run: echo "영향받은 앱 빌드와 테스트가 완료되었습니다. 배포 예정인 앱 = ${{ steps.build-app.outputs.APPNAME }}"

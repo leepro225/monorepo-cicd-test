@@ -59,12 +59,14 @@ jobs:
           cache: npm
       - run: npm ci
       
+      - run: ls
+      
       - name: << Build an app >> 
         id: build-app
         run: |
           APPNAME=${{matrix.affectedApps}}
           PATH=dist/packages/${APPNAME/-/\/}
-          npx nx run ${{matrix.affectedApps}}:build
+          nx run ${{matrix.affectedApps}}:build
               
       - name: << Upload an artifact >>
         if: ${{ success() }}

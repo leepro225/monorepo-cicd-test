@@ -54,17 +54,17 @@ jobs:
       matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
+      - run: ls
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
-      - run: npm i nx
       - run: npm ci
       
       - name: << Build an app >> 
         id: build-app
         run: |
-          npx nx run ${{matrix.affectedApps}}:build
+          ./node_modules/.bin/nx run ${{matrix.affectedApps}}:build
           APPNAME=${{ matrix.affectedApps }}
           echo "APPNAME=${APPNAME}" >> $GITHUB_OUTPUT
           echo "PATH=dist/packages/${APPNAME/-/\/}" >> $GITHUB_OUTPUT

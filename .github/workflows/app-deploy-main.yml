@@ -63,7 +63,7 @@ jobs:
         id: build-app
         run: |
           APPNAME=${{matrix.affectedApps}}
-          PATH=dist/packages/${matrix.affectedApps/-/\/}
+          PATH=dist/packages/${APPNAME/-/\/}
           npx nx run ${matrix.affectedApps}:build
               
       - name: << Upload an artifact >>

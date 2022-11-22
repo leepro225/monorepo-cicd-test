@@ -82,7 +82,7 @@ jobs:
 
   deploy:
     needs: [check-affected-apps, build]
-    if: ${{ needs.build.steps.build-app.result.success() }}
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     name: JOB | DEPLOYING...🎊
     strategy:

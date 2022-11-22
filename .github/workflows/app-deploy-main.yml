@@ -50,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     name: JOB | BUILDING...🔨
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v3
@@ -87,7 +88,8 @@ jobs:
     runs-on: ubuntu-latest
     name: JOB | DEPLOYING...🎊
     strategy:
-        matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.check-affected-apps.outputs.matrix) }}
     steps:
       - name: << Set ENV for S3 >>
         id: set-env

@@ -64,8 +64,8 @@ jobs:
         run: |
           echo "APPNAME=${{matrix.affectedApps}}" >> $GITHUB_OUTPUT
           echo "PATH=dist/packages/${APPNAME/-/\/}" >> $GITHUB_OUTPUT
-          npx nx run ${ steps.build-app.ouputs.APPNAME }:build
-          npx nx run ${ APPNAME }:test
+          npx nx run ${{ steps.build-app.outputs.APPNAME }}:build
+          npx nx run ${{matrix.affectedApps}}:test
               
       - name: << Upload an artifact >>
         if: ${{ success() }}
